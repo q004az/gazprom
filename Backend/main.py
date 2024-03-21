@@ -16,11 +16,23 @@ def registration():
 
     return jsonify(result)  # Возвращаем ответ в формате JSON
 
-
 @app.route('/api/authorization', methods=['GET'])
 def authorization():
-    pass
+    data = request.get_json()  # Получаем данные из тела запроса
 
+    Data.login_user(data['login'], data['password'])
+
+    result = {"message": "Метод успешно вызван", "data": data}
+
+    return jsonify(result)  # Возвращаем ответ в формате JSON
+
+@app.route('/api/homepage', methods={'GET'})
+def homepage():
+    data = request.get_json()
+
+    result = {"message": "Метод успешно вызван", "data": data}
+
+    return jsonify(result)
 
 if __name__ == '__main__':
     app.run(debug=True, port=80, host='127.0.0.1')
