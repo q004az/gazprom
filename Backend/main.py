@@ -1,3 +1,4 @@
+import requests
 from flask import Flask, jsonify, request
 from flask_restful import Api, Resource
 
@@ -10,7 +11,8 @@ app = Flask(__name__)
 def registration():
     data = request.get_json()  # Получаем данные из тела запроса
 
-    Data.register_user(data['surname'], data['name'], data['patronymic'], data['login'], data['password'])
+    print(data['surname'], data['name'], data['patronymic'], data['login'], data['password'])
+    print(Data.register_user(surname=data['surname'], name=data['name'], patronymic=data['patronymic'], login=data['login'], password=data['password']))
 
     result = {"message": "Метод успешно вызван", "data": data}
 
@@ -19,11 +21,14 @@ def registration():
 
 @app.route('/api/authorization', methods=['GET'])
 def authorization():
-    data = request.get_json()  # Получаем данные из тела запроса
+    login = request.args.get('login')
+    password = request.args.get('password')
 
-    Data.login_user(data['login'], data['password'])
+    print(login, password)
 
-    result = {"message": "Метод успешно вызван", "data": data}
+    data_user = Data.search_user(login, password)
+
+    result = {'message': 'Метод успешно вызван', 'data_user': data_user}
 
     return jsonify(result)  # Возвращаем ответ в формате JSON
 
@@ -43,5 +48,4 @@ def hello():
 
 
 if __name__ == '__main__':
-    conn = Data()
     app.run(debug=True, port=80, host='26.49.94.205')
