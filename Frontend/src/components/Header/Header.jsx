@@ -9,10 +9,10 @@ export default function Header(){
       // Здесь происходит запрос к серверу для получения информации о пользователе
       // Предположим, что сервер возвращает информацию о зарегистрированном пользователе в виде объекта с полем isRegistered
       // Пример запроса к серверу:
-    //   fetch('/api/userinfo')
-    //     .then(response => response.json())
-    //     .then(data => setIsUserRegistered(data.isRegistered))
-    //     .catch(error => console.error('Error fetching user info:', error));
+        //   fetch('/api/userinfo')
+        //     .then(response => response.json())
+        //     .then(data => setIsUserRegistered(data.isRegistered))
+        //     .catch(error => console.error('Error fetching user info:', error));
   
       // Вместо реального запроса, используем имитацию ответа от сервера
       setTimeout(() => {
@@ -33,7 +33,7 @@ export default function Header(){
                 </div>
             </div>
             
-            {window.location.pathname === '/'&& (
+            {window.location.pathname === '/homepage-1'&& (
                 <li><a href="" class="header__link">Выбрать аудиторию</a>
                     <ul class="header__submenu">
                         <li><a href="">Видеостудия дополненной реальности</a></li>
