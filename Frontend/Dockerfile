@@ -1,19 +1,12 @@
-FROM node:14
-
-# Set the working directory in the container
+# Stage 1: Build React App
+FROM node:latest as build
 WORKDIR /app
-
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy the frontend source code to the working directory
 COPY . .
+RUN npm install
+RUN npm run build
 
-# Expose the port the app runs on
-EXPOSE 3000
-
-# Command to start the app
-CMD ["npm", "start"]
+# Stage 2: Serve React App with Nginx
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
