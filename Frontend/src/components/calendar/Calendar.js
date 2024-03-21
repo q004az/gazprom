@@ -1,74 +1,48 @@
 import React, { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
-import "moment/locale/ru"; // Импортируем русский язык для moment
+import 'moment/locale/ru'; // Импортируем русский язык для moment
 import events from "./events";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import EventMenu from "../EventModal/EventModal";
 
-moment.locale("ru"); // Устанавливаем русский язык для moment
+moment.locale("ru");
 const localizer = momentLocalizer(moment);
 
-const WORK_START_HOUR = 8; // Начало рабочего дня
-const WORK_END_HOUR = 17; // Конец рабочего дня
+const WORK_START_HOUR = 8;
+const WORK_END_HOUR = 17;
 
 export default function CalendarG() {
   const [eventsData, setEventsData] = useState(events);
+  const [selectedSlot, setSelectedSlot] = useState(null);
 
   const handleSelect = ({ start, end }) => {
-    const title = window.prompt("Название события:");
-    if (!title) return;
+    setSelectedSlot({ start, end });
+  };
 
-    const startDate = new Date(start);
-    const endDate = new Date(end);
+  const handleSaveEvent = (formData) => {
+    const { title, responsible, goal, targetAudience, participantsCount, label, startDate, endDate } = formData;
 
-    // Проверка наличия событий в выбранном интервале
-    const isEventOverlap = eventsData.some((event) => {
-      return (
-        (startDate >= new Date(event.start) &&
-          startDate < new Date(event.end)) ||
-        (endDate > new Date(event.start) &&
-          endDate <= new Date(event.end)) ||
-        (startDate <= new Date(event.start) &&
-          endDate >= new Date(event.end))
-      );
-    });
-
-    if (isEventOverlap) {
-      alert("Это время уже занято");
+    if (!title || !startDate || !endDate) {
+      alert("Please fill in all required fields");
       return;
     }
 
-    // Если выбран весь день, проверяем наличие других событий в этот день
-    if (isWholeDay(start, end)) {
-      const isDayBooked = eventsData.some((event) => {
-        return (
-          moment(start).isSame(event.start, "day") &&
-          moment(end).isSame(event.end, "day")
-        );
-      });
-
-      if (isDayBooked) {
-        alert("Весь день уже занят");
-        return;
-      }
-    }
-
-    // Если выбран весь день или другой интервал времени, создаем новое событие
     const newEvent = {
-      start: startDate,
-      end: endDate,
+      start: new Date(startDate),
+      end: new Date(endDate),
       title: title,
+      responsible: responsible,
+      goal: goal,
+      targetAudience: targetAudience,
+      participantsCount: participantsCount,
+      label: label,
     };
 
     setEventsData([...eventsData, newEvent]);
+    setSelectedSlot(null);
   };
 
-  // Функция для проверки, является ли интервал выбора "весь день"
-  const isWholeDay = (start, end) => {
-    return moment(start).startOf("day").isSame(moment(end).endOf("day"));
-  };
-
-  // Функция для форматирования событий в месяце
   const eventMonthFormat = (event, culture, localizer) => {
     const startDate = moment(event.start).format("LT");
     const endDate = moment(event.end).format("LT");
@@ -80,56 +54,45 @@ export default function CalendarG() {
     );
   };
 
+  const eventPropGetter = (event) => {
+    let backgroundColor = "#3174ad";
+    if (event.label) {
+      backgroundColor = event.label;
+    }
+    return {
+      style: {
+        backgroundColor: backgroundColor,
+        borderRadius: "0px",
+        opacity: 0.8,
+        color: "white",
+        border: "0px",
+        display: "block",
+      },
+    };
+  };
+
   return (
-    <div className="App">
-      <Calendar
-        views={["day", "week", "month"]}
-        selectable
-        localizer={localizer}
-        defaultDate={new Date()}
-        defaultView="month"
-        events={eventsData}
-        style={{ height: "750px" }}
-        onSelectEvent={(event) => alert(event.title)}
-        onSelectSlot={handleSelect}
-        min={new Date().setHours(WORK_START_HOUR, 0, 0, 0)} // Минимальное время для выбора
-        max={new Date().setHours(WORK_END_HOUR, 0, 0, 0)} // Максимальное время для выбора
-        formats={{
-          timeGutterFormat: (date, culture, localizer) =>
-            localizer.format(date, "HH:mm", culture),
-          eventTimeRangeFormat: ({ start, end }, culture, localizer) =>
-            `${localizer.format(start, "HH:mm", culture)} - ${localizer.format(
-              end,
-              "HH:mm",
-              culture
-            )}`,
-          agendaTimeRangeFormat: ({ start, end }, culture, localizer) =>
-            `${localizer.format(start, "HH:mm", culture)} - ${localizer.format(
-              end,
-              "HH:mm",
-              culture
-            )}`,
-          dayRangeHeaderFormat: ({ start, end }, culture, localizer) =>
-            `${localizer.format(start, "LL", culture)} - ${localizer.format(
-              end,
-              "LL",
-              culture
-            )}`,
-          dayHeaderFormat: (date, culture, localizer) =>
-            localizer.format(date, "dddd, LL", culture),
-          dayFormat: (date, culture, localizer) =>
-            localizer.format(date, "dddd, LL", culture),
-          monthHeaderFormat: (date, culture, localizer) =>
-            localizer.format(date, "LLLL yyyy", culture),
-          agendaDateFormat: (date, culture, localizer) =>
-            localizer.format(date, "dddd, LL", culture),
-          agendaTimeFormat: (date, culture, localizer) =>
-            localizer.format(date, "HH:mm", culture),
-          monthDayFormat: (date, culture, localizer) =>
-            localizer.format(date, "D", culture),
-          eventMonthFormat: eventMonthFormat,
-        }}
-      />
+    <div className="calendar-container">
+      <div className="calendar-content">
+        <Calendar
+          views={["day", "week", "month"]}
+          localizer={localizer}
+          defaultDate={new Date()}
+          defaultView="month"
+          events={eventsData}
+          style={{ width: "80%" }} // Устанавливаем ширину календаря
+          onSelectSlot={handleSelect}
+          min={new Date().setHours(WORK_START_HOUR, 0, 0, 0)}
+          max={new Date().setHours(WORK_END_HOUR, 0, 0, 0)}
+          formats={{
+            eventMonthFormat: eventMonthFormat
+          }}
+          eventPropGetter={eventPropGetter}
+        />
+      </div>
+      <div className="event-menu">
+        <EventMenu onSave={handleSaveEvent} />
+      </div>
     </div>
   );
 }
