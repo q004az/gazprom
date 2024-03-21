@@ -81,26 +81,26 @@ function Register() {
     }
 
     try {
-      const response = await fetch('http://127.0.0.1:3000/api/registration', {
+      const response = await fetch('http://26.49.94.205/api/registration', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          firstName,
-          lastName,
-          surname,
-          username,
-          password,
+          surname: lastName,
+          name: firstName,
+          patronymic: surname,
+          login: username,
+          password: password,
         }),
       });
   
       const data = await response.json();
-      // В этом месте можно обработать ответ от сервера, например, вывести сообщение об успешной регистрации или обработать ошибку
+      
       console.log('Отправленные данные:', { username, password });
       console.log('Ответ сервера:', data);
     } catch (error) {
-      // Обработка ошибок сети или других ошибок при запросе
+      
       console.error('Ошибка при отправке запроса:', error);
       setErrorMessage('Ошибка при отправке запроса');
     }

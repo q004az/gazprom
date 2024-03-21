@@ -28,14 +28,12 @@ function Login() {
   };
 
   const handleSubmit = () => {
-    setErrorMessage(''); // Сброс ошибки перед проверкой
+    setErrorMessage(''); 
     
     if (username.length === 0) {
       setErrorMessage('Пожалуйста, введите логин');
       return;
     }
-
-
 
     if (password.length < 5 || password.length > 50) {
       setErrorMessage('Пароль должен быть не менее 5 и не более 50 символов');
