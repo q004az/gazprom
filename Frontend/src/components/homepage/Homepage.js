@@ -1,14 +1,13 @@
-import React, { Fragment, useMemo } from 'react'
-import CalendarG from './Calendar'
+import Header from "../Header/Header";
+import ListAudit from "../ListAudit/ListAudit";
+export default function HomePage (){
+  return(
+      <div className="homepage">
+          <Header />
+          <ListAudit />
+      </div>
+  )
+}
 
-function Homepage()
-  {
-    return (
-        <div>
-            <CalendarG />
-        </div>
-      
-    )
-  }
 
-  export default Homepage
+//  <CalendarG />
