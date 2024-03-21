@@ -3,15 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@fullcalendar/daygrid": "5.7.0",
-    "@fullcalendar/interaction": "5.7.0",
-    "@fullcalendar/react": "5.7.0",
-    "moment": "2.29.1",
-    "react": "17.0.2",
-    "react-big-calendar": "0.33.3",
-    "react-dom": "17.0.2",
-    "react-scripts": "4.0.0",
-    "tui-calendar": "1.13.0"
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "customize-cra": "^1.0.0",
+    "less": "^4.2.0",
+    "less-loader": "^12.2.0",
+    "react": "^18.2.0",
+    "react-app-rewired": "^2.2.1",
+    "react-big-calendar": "^1.11.2",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.3",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -37,6 +41,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-big-calendar": "^1.8.9"
+    "@types/react-big-calendar": "^1.8.9",
+    "react-app-rewired": "^2.2.1"
   }
 }

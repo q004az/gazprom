@@ -1,11 +1,11 @@
 import React, { Fragment, useMemo } from 'react'
-import TuiCalendar from './tuicalendar'
+import CalendarG from './Calendar'
 
 function Homepage()
   {
     return (
         <div>
-            <TuiCalendar />
+            <CalendarG />
         </div>
       
     )
