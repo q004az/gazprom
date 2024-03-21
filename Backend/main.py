@@ -42,15 +42,29 @@ def authorization():
     return jsonify(result)
 
 
-@app.route('/api/homepage', methods={'GET'})
-def homepage():
+@app.route('/api/create_event', methods={'POST'})
+def create_event():
     data = request.get_json()
+    is_complete = Data.create_event(
+                                    id_audience=data['id_audience'],
+                                    title_event=data['title_event'],
+                                    time_start_event=data['time_start_event'],
+                                    time_end_event=data['time_end_event'],
+                                    date=data['date'],
+                                    responsible=data['responsible'],
+                                    category=data['category'],
+                                    number_participants=data['number_participants'],
+                                    max_number_participants=data['max_number_participants'],
+                                    category_participants=data['category_participants'],
+                                    datetime_create_event=data['datetime_create_event'])
+    print(f'Метод Data.register_user вызван с результатом: {is_complete}')
 
-    result = {"message": "Метод успешно вызван", "data": data}
+    if is_complete:
+        result = {"message": "Метод успешно вызван", "data": data}
+    else:
+        result = {"message": "Метод не выполнен"}
 
     return jsonify(result)
-
-
 
 
 if __name__ == '__main__':
