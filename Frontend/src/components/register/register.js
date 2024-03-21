@@ -1,7 +1,7 @@
 import '../../styles/register.css';
 import '../../styles/zero.css';
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate  } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function ErrorMessage({ message }) {
   if (!message) return null;
@@ -139,13 +139,13 @@ function Register() {
           Регистрация
           </button>
           <div className='register__bottom-cont'>
-            <a href="#" className="register__back">
+            <Link to="/" className="register__back">
               Назад
-            </a>
+            </Link>
 
-            <a href="#" className="register__as-guest">
+            <Link to="/homepage" href="#" className="register__as-guest">
               Войти как гость
-            </a>
+            </Link>
           </div>
           
         </div>

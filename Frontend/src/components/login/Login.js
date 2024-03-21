@@ -3,6 +3,7 @@ import logo from "../../icons/logo.svg";
 import '../../styles/App.css';
 import '../../styles/login.css';
 import '../../styles/zero.css';
+import { Link } from 'react-router-dom';
 
 function ErrorMessage({ message }) {
   if (!message) return null;
@@ -69,13 +70,13 @@ function Login() {
           Вход
         </button>
 
-        <button className="login__button">
+        <Link to="/register" className="login__button login__button-reg">
           Регистрация
-        </button>
+        </Link>
 
-        <a href="#" className="login__as-guest">
+        <Link to="/homepage" className="login__as-guest">
           Войти как гость
-        </a>
+        </Link>
       </div>
 
       <p className="login__desc">Сайт по бронированию аудиторий, для ваших мероприятий</p>
