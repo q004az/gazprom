@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { Fragment, useMemo } from 'react'
+import TuiCalendar from './tuicalendar'
 
+function Homepage()
+  {
+    return (
+        <div>
+            <TuiCalendar />
+        </div>
+      
+    )
+  }
 
-function Homepage() {
-
-
-
-    return (<div>ГЛАВНАЯ СТРАНИЦА</div>)
-    
-}
-
-
-export default Homepage;
+  export default Homepage

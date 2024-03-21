@@ -46,7 +46,7 @@ function Register() {
     setSurname(event.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setErrorMessage(''); // Сброс ошибки перед проверкой
     
     if (username.length === 0) {
@@ -78,6 +78,31 @@ function Register() {
     if(confirmPassword!=password){
       setErrorMessage('Паролиь не совпадают');
       return;
+    }
+
+    try {
+      const response = await fetch('http://127.0.0.1:3000/api/registration', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          surname,
+          username,
+          password,
+        }),
+      });
+  
+      const data = await response.json();
+      // В этом месте можно обработать ответ от сервера, например, вывести сообщение об успешной регистрации или обработать ошибку
+      console.log('Отправленные данные:', { username, password });
+      console.log('Ответ сервера:', data);
+    } catch (error) {
+      // Обработка ошибок сети или других ошибок при запросе
+      console.error('Ошибка при отправке запроса:', error);
+      setErrorMessage('Ошибка при отправке запроса');
     }
 
     console.log('Отправленные данные:', { username, password });
@@ -115,10 +140,10 @@ function Register() {
           />
 
           <input
-            type="text"
+            type="email"
             value={username}
             onChange={handleUsernameChange}
-            placeholder="Логин / Email"
+            placeholder="Почта"
             className="register__input"
           />
           <input
@@ -136,7 +161,7 @@ function Register() {
             className="register__input"
           />
           <button onClick={handleSubmit} className="register__button">
-          Регистрация
+          Зарегистрироваться
           </button>
           <div className='register__bottom-cont'>
             <Link to="/" className="register__back">
