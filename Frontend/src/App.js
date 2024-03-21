@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
-import logo from "./icons/logo.svg";
+
 import './styles/App.css';
 import './styles/login.css';
 import './styles/zero.css';
 import  Login from './components/login/Login'
+import  HomePage from './components/HomePage/HomePage'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+
 
 function App() {
   return (
-    <Login/>
+    <Router>
+      <div>
+        <Routes>
+          <Route path="/" element = {<HomePage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
