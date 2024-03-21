@@ -14,7 +14,7 @@ class Data:
                  False, if the database hasn't opened
         """
         db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
-        db.setDatabaseName('app_db.db')
+        db.setDatabaseName('database.db')
 
         if not db.open():
             return False
@@ -42,7 +42,9 @@ class Data:
                    "Time_step TIME DEFAULT '00:10:00'"
                    "Max_participants INTEGER,"
                    "Is_active BOOLEAN DEFAULT TRUE,"
-                   "Responsible INTEGER"
+                   "Responsible INTEGER,"
+                   "time_start_break TIME DEFAULT '13:00:00',"
+                   "time_end_break TIME DEFAULT '14:00:00'"
                    ")")
 
         query.exec("CREATE TABLE IF NOT EXISTS events"
@@ -141,7 +143,6 @@ class Data:
         :return: True, if the user is registered
                  False, if the user isn't registered
         """
-        # is_correct_data_user(surname, name, patronymic, login, password)
 
         crypt_key = Fernet.generate_key().decode('utf-8')
         encrypted_password = self.Crypt_password(password, crypt_key)
@@ -151,6 +152,12 @@ class Data:
                                               [name, surname, patronymic, login, encrypted_password, crypt_key])
 
     def update_user_query(self, password: str, id_user: int) -> bool:
+        """
+        :param password.
+        :param id_user.
+        :return: True, if the query is updated
+                 False, if the query isn't updated
+        """
         crypt_key = self.get_crypt_key(id_user)
         encrypted_password = self.Crypt_password(password, crypt_key)
         sql_query = "UPDATE users SET Password=? WHERE ID=?"
@@ -158,6 +165,12 @@ class Data:
         return self.execute_query_with_params(sql_query, [encrypted_password, id_user])
 
     def delete_user_query(self, id_user: int) -> bool:
+        """
+        :param id_user.
+        :return: True, if the query is deleted
+                 False, if the query isn't deleted
+        """
+
         sql_query = "DELETE FROM users WHERE ID=?"
 
         return self.execute_query_with_params(sql_query, [id_user])
