@@ -28,7 +28,7 @@ export default function ListAudit() {
         <div className="list__container">
           <div className="list__icons">
             {images.map(({ id, title, text, url }) => (
-              <Link to={`/homepage-${id}`} className='list__link' key={id}>
+              <Link to={`/Audience-${id}`} className='list__link' key={id}>
                 <div className="list__icon" style={{ backgroundImage: `url(${url})` }}>
                   <h2 className="list__title">{title}</h2>
                   <p className="list__text">{text}</p>

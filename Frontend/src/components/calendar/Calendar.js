@@ -89,7 +89,7 @@ export default function CalendarG() {
         defaultDate={new Date()}
         defaultView="month"
         events={eventsData}
-        style={{ height: "100vh" }}
+        style={{ height: "750px" }}
         onSelectEvent={(event) => alert(event.title)}
         onSelectSlot={handleSelect}
         min={new Date().setHours(WORK_START_HOUR, 0, 0, 0)} // Минимальное время для выбора
