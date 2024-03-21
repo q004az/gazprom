@@ -16,6 +16,7 @@ def registration():
 
     return jsonify(result)  # Возвращаем ответ в формате JSON
 
+
 @app.route('/api/authorization', methods=['GET'])
 def authorization():
     data = request.get_json()  # Получаем данные из тела запроса
@@ -26,6 +27,7 @@ def authorization():
 
     return jsonify(result)  # Возвращаем ответ в формате JSON
 
+
 @app.route('/api/homepage', methods={'GET'})
 def homepage():
     data = request.get_json()
@@ -34,5 +36,12 @@ def homepage():
 
     return jsonify(result)
 
+
+@app.route('/api/test', methods=['GET'])
+def hello():
+    return {'hello': 'world'}
+
+
 if __name__ == '__main__':
-    app.run(debug=True, port=80, host='127.0.0.1')
+    conn = Data()
+    app.run(debug=True, port=80, host='26.49.94.205')

@@ -29,7 +29,7 @@ class Data:
                    "Patronymic VARCHAR(30),"
                    "Login VARCHAR(50),"
                    "Password VARCHAR(50),"
-                   "Crypt_key VARCHAR(1000)"
+                   "Crypt_key VARCHAR(1000),"
                    "Is_admin BOOLEAN"
                    ")")
 
@@ -39,7 +39,7 @@ class Data:
                    "Title VARCHAR(100),"
                    "time_start TIME DEFAULT '08:00:00',"
                    "time_end TIME DEFAULT '17:00:00',"
-                   "Time_step TIME DEFAULT '00:10:00'"
+                   "Time_step TIME DEFAULT '00:10:00',"
                    "Max_participants INTEGER,"
                    "Is_active BOOLEAN DEFAULT TRUE,"
                    "Responsible INTEGER,"
@@ -60,7 +60,7 @@ class Data:
                    "Max_number_participants INTEGER,"
                    "Number_participants INTEGER,"
                    "Category_participants VARCHAR(100),"
-                   "datetime_create_event DATETIME"
+                   "Datetime_create_event DATETIME"
                    ")")
 
         query.exec("CREATE TABLE IF NOT EXISTS media"
@@ -131,7 +131,7 @@ class Data:
             key = sql_query.value(0)
             return key
         else:
-            return ''   # Нужно подумать!
+            return ''  # Нужно подумать!
 
     def register_user(self, surname: str, name: str, patronymic: str, login: str, password: str) -> bool:
         """
@@ -174,3 +174,24 @@ class Data:
         sql_query = "DELETE FROM users WHERE ID=?"
 
         return self.execute_query_with_params(sql_query, [id_user])
+
+    def create_event(self, id_audience: int, title_event: str, time_start_event: str, time_end_event: str, date: str,
+                     responsible: int, category: str, number_participants: int, max_number_participants: int,
+                     category_participants: str, datetime_create_event: str) -> bool:
+
+        sql_query = "INSERT INTO events (Id_audience, Title_event, Time_start_event, Time_end_event, Date," \
+                    "Responsible, Category," \
+                    "Max_number_participants," \
+                    "Number_participants," \
+                    "Category_participants," \
+                    "Datetime_create_event)" \
+                    " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        return self.execute_query_with_params(sql_query,
+                                              [id_audience, title_event, time_start_event, time_end_event, date,
+                                               responsible, category, number_participants, max_number_participants,
+                                               category_participants, datetime_create_event])
+
+    def create_media(self, category: str, path: str, id_event: int) -> bool:
+        sql_query = "INSERT INTO media (Category, Path, Id_event)" \
+                    " VALUES (?, ?, ?)"
+        return self.execute_query_with_params(sql_query, [category, path, id_event])
