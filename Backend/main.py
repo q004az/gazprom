@@ -9,14 +9,23 @@ app = Flask(__name__)
 
 @app.route('/api/registration', methods=['POST'])
 def registration():
-    data = request.get_json()  # Получаем данные из тела запроса
+    data = request.get_json()
 
-    print(data['surname'], data['name'], data['patronymic'], data['login'], data['password'])
-    print(Data.register_user(surname=data['surname'], name=data['name'], patronymic=data['patronymic'], login=data['login'], password=data['password']))
+    print('Полученные данные:', data['surname'], data['name'], data['patronymic'], data['login'], data['password'])
+    is_complete = Data.register_user(
+                                    surname=data['surname'],
+                                    name=data['name'],
+                                    patronymic=data['patronymic'],
+                                    login=data['login'],
+                                    password=data['password'])
+    print(f'Метод Data.register_user вызван с результатом: {is_complete}')
 
-    result = {"message": "Метод успешно вызван", "data": data}
+    if is_complete:
+        result = {"message": "Метод успешно вызван", "data": data}
+    else:
+        result = {"message": "Пользователь не зарегистрирован"}
 
-    return jsonify(result)  # Возвращаем ответ в формате JSON
+    return jsonify(result)
 
 
 @app.route('/api/authorization', methods=['GET'])
@@ -30,7 +39,7 @@ def authorization():
 
     result = {'message': 'Метод успешно вызван', 'data_user': data_user}
 
-    return jsonify(result)  # Возвращаем ответ в формате JSON
+    return jsonify(result)
 
 
 @app.route('/api/homepage', methods={'GET'})
@@ -42,9 +51,6 @@ def homepage():
     return jsonify(result)
 
 
-@app.route('/api/test', methods=['GET'])
-def hello():
-    return {'hello': 'world'}
 
 
 if __name__ == '__main__':
