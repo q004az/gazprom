@@ -1,0 +1,142 @@
+
+.login{
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(to bottom right, #5ED9FF, #0C5EAA);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    
+    &__container{
+      align-items: normal;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      background-color: #FFFFFF;
+      width: 480px;
+      height: 640px;
+      border-radius: 20px;
+      box-shadow: 38px 28px 80px rgba(0, 0, 0, 0.3);
+      //filter: drop-shadow(12px 15px 20px)
+    }
+  
+    &__logo{
+      width: 198px;
+      height: 108px;
+    }
+  
+    &__title{
+      font-family: Montserrat;
+      font-weight: 600;
+      text-align: center;
+      font-size: 45px;
+      margin-top: 7px;
+      height: 54px;
+    }
+  
+    &__input{
+      font-family: Montserrat;
+      font-style: italic;
+      font-size: 25px;
+      width: 370px;
+      border: none;
+      background-color: #E5E4E4;
+      border-radius: 15px;
+      padding-left: 20px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 34px;
+      height: 50px;
+      
+      &:last-of-type {
+        margin-top: 30px;
+      }
+    }
+  
+    &__forgot-password{
+      text-align: right;
+      margin-right: 55px;
+      font-family: Montserrat;
+      font-style: italic;
+      font-size: 15px;
+      text-decoration:none;
+      color: rgba(0, 0, 0, 0.7);
+      margin-top: 3px;
+    }
+  
+    &__button{
+      margin-top: 51px;
+      width: 370px;
+      background-color: #6CA9F5;
+      font-family: Rubik;
+      font-size: 25px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-left: auto;
+      margin-right: auto;
+      border: none;
+      color: #003251;
+      height: 55px;
+      border-radius: 15px;
+      text-decoration:none;
+      text-align: center;
+      
+      &-reg{
+        margin-top: 23px;
+        padding-top: 7.8px;
+      }
+        
+    }
+  
+    &__bottom-cont{
+      display: flex;
+      justify-content: space-between;
+    }
+  
+    &__as-guest{
+      display: inline-block;
+      font-family: Montserrat;
+      font-style: italic;
+      font-size: 20px;
+      text-decoration: none;
+      color: rgba(0, 0, 0, 0.8);
+      margin-top: 30px;
+      align-self: flex-end;
+      margin-right: 55px;
+    }
+  
+    &__back{
+      display: inline-block;
+      font-family: Montserrat;
+      font-style: italic;
+      font-size: 20px;
+      text-decoration: none;
+      color: rgba(0, 0, 0, 0.8);
+      margin-top: 30px;
+      margin-left: 55px;
+    }
+  
+    &__error-message {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(255, 0, 0, 0.9);
+      color: #fff;
+      padding: 10px 20px;
+      text-align: center;
+      z-index: 9999;
+    }
+
+    &__desc{
+        font-family: Montserrat;
+        font-weight: 400;
+        font-size: 30px;
+        width: 100%;
+        text-align: center;
+        color: #FFFFFF;
+      }
+      
+  }
+  

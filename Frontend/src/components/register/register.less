@@ -1,0 +1,127 @@
+
+.register{
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(to bottom right, #5ED9FF, #0C5EAA);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    
+    &__container{
+      align-items: normal;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      background-color: #FFFFFF;
+      width: 480px;
+      height: 720px;
+      border-radius: 20px;
+      box-shadow: 38px 28px 80px rgba(0, 0, 0, 0.3);
+      //filter: drop-shadow(12px 15px 20px)
+    }
+  
+    &__logo{
+      width: 198px;
+      height: 108px;
+    }
+  
+    &__title{
+      font-family: Montserrat;
+      font-weight: 600;
+      text-align: center;
+      font-size: 45px;
+      margin-top: -5px;
+      height: 54px;
+    }
+  
+    &__input{
+      font-family: Montserrat;
+      font-style: italic;
+      font-size: 20px;
+      width: 370px;
+      border: none;
+      background-color: #E5E4E4;
+      border-radius: 15px;
+      padding-left: 20px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 16px;
+      height: 50px;
+      color: rgba(0, 0, 0, 0.5);
+      &:first-child {
+        margin-top: 20px;
+      }
+    }
+  
+    &__button{
+      margin-top: 20px;
+      width: 370px;
+      background-color: #6CA9F5;
+      font-family: Rubik;
+      font-size: 25px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-left: auto;
+      margin-right: auto;
+      border: none;
+      color: #003251;
+      height: 55px;
+      border-radius: 15px;
+      text-decoration:none;
+      text-align: center;
+      
+    }
+  
+    &__bottom-cont{
+      display: flex;
+      justify-content: space-between;
+    }
+  
+    &__as-guest{
+      display: inline-block;
+      font-family: Montserrat;
+      font-style: italic;
+      font-size: 23px;
+      text-decoration: none;
+      color: rgba(0, 0, 0, 0.8);
+      margin-top: 30px;
+      align-self: flex-end;
+      margin-right: 55px;
+    }
+  
+    &__back{
+      display: inline-block;
+      font-family: Montserrat;
+      font-style: italic;
+      font-size: 23px;
+      text-decoration: none;
+      color: rgba(0, 0, 0, 0.8);
+      margin-top: 30px;
+      margin-left: 55px;
+    }
+  
+    &__error-message {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(255, 0, 0, 0.9);
+      color: #fff;
+      padding: 10px 20px;
+      text-align: center;
+      z-index: 9999;
+    }
+
+    &__desc{
+        font-family: Montserrat;
+        font-weight: 400;
+        font-size: 30px;
+        width: 100%;
+        //width: 2500px;
+        text-align: center;
+        color: #FFFFFF;
+      }
+      
+  }
+  
