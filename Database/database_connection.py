@@ -217,7 +217,6 @@ class Data:
 
         while sql_query.next():
             print('can')
-            crypt_password = Data.Crypt_password(password, sql_query.value(6))
             if login == str(sql_query.value(4)) and password == str(sql_query.value(5)):
                 print('нашло совпадение!')
                 return {
@@ -226,10 +225,10 @@ class Data:
                     'name': sql_query.value(2),
                     'patronymic': sql_query.value(3),
                     'login': sql_query.value(4),
-                    'password': Data.Decrypt_password(sql_query.value(5), sql_query.value(6)),
-                    'is_admin': sql_query.value(6)
+                    'password': sql_query.value(5),
+                    'is_admin': sql_query.value(7)
                 }
-
+        # Data.Decrypt_password(sql_query.value(5), sql_query.value(6))
         return {'hello': 'world'}
 
     @staticmethod
