@@ -13,11 +13,11 @@ def registration():
 
     print('Полученные данные:', data['surname'], data['name'], data['patronymic'], data['login'], data['password'])
     is_complete = Data.register_user(
-        surname=data['surname'],
-        name=data['name'],
-        patronymic=data['patronymic'],
-        login=data['login'],
-        password=data['password'])
+                                    surname=data['surname'],
+                                    name=data['name'],
+                                    patronymic=data['patronymic'],
+                                    login=data['login'],
+                                    password=data['password'])
     print(f'Метод Data.register_user вызван с результатом: {is_complete}')
 
     if is_complete:
@@ -51,15 +51,6 @@ def homepage():
     return jsonify(result)
 
 
-@app.route('/api/events_by_audience', methods=['GET'])
-def search_events_by_audience():
-    id_audience = request.args.get('id_audience')
-
-    data_events = Data.search_events_by_audience(id_audience)
-
-    result = {'message': 'Метод успешно вызван', 'data_events': data_events}
-
-    return jsonify(result)
 
 
 if __name__ == '__main__':

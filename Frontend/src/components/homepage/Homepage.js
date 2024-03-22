@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-
-
-function Homepage() {
-
-
-
-    return (<div>ГЛАВНАЯ СТРАНИЦА</div>)
-    
+import Header from "../Header/Header";
+import ListAudit from "../ListAudit/ListAudit";
+export default function HomePage (){
+  return(
+      <div className="homepage">
+          <Header />
+          <ListAudit />
+      </div>
+  )
 }
 
 
-export default Homepage;
+//  <CalendarG />

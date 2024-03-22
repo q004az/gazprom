@@ -28,12 +28,13 @@ function Login() {
   };
 
   const handleSubmit = () => {
-    setErrorMessage(''); // Сброс ошибки перед проверкой
+    setErrorMessage(''); 
     
     if (username.length === 0) {
       setErrorMessage('Пожалуйста, введите логин');
       return;
     }
+
     if (password.length < 5 || password.length > 50) {
       setErrorMessage('Пароль должен быть не менее 5 и не более 50 символов');
       return;
@@ -49,10 +50,10 @@ function Login() {
         <img src="./assets/icons/logo.svg" className="login__logo" alt="logo" />
         <p className="login__title">Войти</p>
         <input
-          type="text"
+          type="email"
           value={username}
           onChange={handleUsernameChange}
-          placeholder="Логин"
+          placeholder="Почта"
           className="login__input"
           maxLength="50"
         />
