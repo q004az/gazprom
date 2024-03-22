@@ -64,10 +64,10 @@ def create_event():
 
     return jsonify(result)
 
-@app.route('/api/append_media', methods={'POST'})
-def append_media():
+@app.route('/api/create_media', methods={'POST'})
+def create_media():
     data = request.get_json()
-    is_complete = Data.append_media(
+    is_complete = Data.create_media(
                                     category=data['category'],
                                     path=data['path'],
                                     id_event=data['id_event'])
@@ -79,6 +79,18 @@ def append_media():
 
     return jsonify(result)
 
+
+@app.route('/api/search_media_by_event', methods=['GET'])
+def search_media_by_event():
+    id_event = request.args.get('id_event')
+
+    print(id_event)
+
+    data_media = Data.search_media_by_event(id_event)
+
+    result = {'message': 'Метод успешно вызван', 'data_media': data_media}
+
+    return jsonify(result)
 
 
 if __name__ == '__main__':
