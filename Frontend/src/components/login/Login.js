@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-
 import '../../styles/App.css';
 import '../../styles/login.css';
 import '../../styles/zero.css';
+import { Link } from 'react-router-dom';
 
 function ErrorMessage({ message }) {
   if (!message) return null;
@@ -28,12 +28,13 @@ function Login() {
   };
 
   const handleSubmit = () => {
-    setErrorMessage(''); // Сброс ошибки перед проверкой
+    setErrorMessage(''); 
     
     if (username.length === 0) {
       setErrorMessage('Пожалуйста, введите логин');
       return;
     }
+
     if (password.length < 5 || password.length > 50) {
       setErrorMessage('Пароль должен быть не менее 5 и не более 50 символов');
       return;
@@ -49,10 +50,10 @@ function Login() {
         <img src="./assets/icons/logo.svg" className="login__logo" alt="logo" />
         <p className="login__title">Войти</p>
         <input
-          type="text"
+          type="email"
           value={username}
           onChange={handleUsernameChange}
-          placeholder="Логин"
+          placeholder="Почта"
           className="login__input"
           maxLength="50"
         />
@@ -69,13 +70,13 @@ function Login() {
           Вход
         </button>
 
-        <button className="login__button">
+        <Link to="/register" className="login__button login__button-reg">
           Регистрация
-        </button>
+        </Link>
 
-        <a href="#" className="login__as-guest">
+        <Link to="/homepage" className="login__as-guest">
           Войти как гость
-        </a>
+        </Link>
       </div>
 
       <p className="login__desc">Сайт по бронированию аудиторий, для ваших мероприятий</p>

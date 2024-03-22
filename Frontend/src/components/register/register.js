@@ -1,7 +1,7 @@
 import '../../styles/register.css';
 import '../../styles/zero.css';
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate  } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function ErrorMessage({ message }) {
   if (!message) return null;
@@ -46,7 +46,7 @@ function Register() {
     setSurname(event.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setErrorMessage(''); // Сброс ошибки перед проверкой
     
     if (username.length === 0) {
@@ -78,6 +78,31 @@ function Register() {
     if(confirmPassword!=password){
       setErrorMessage('Паролиь не совпадают');
       return;
+    }
+
+    try {
+      const response = await fetch('http://26.49.94.205/api/registration', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          surname: lastName,
+          name: firstName,
+          patronymic: surname,
+          login: username,
+          password: password,
+        }),
+      });
+  
+      const data = await response.json();
+      
+      console.log('Отправленные данные:', { username, password });
+      console.log('Ответ сервера:', data);
+    } catch (error) {
+      
+      console.error('Ошибка при отправке запроса:', error);
+      setErrorMessage('Ошибка при отправке запроса');
     }
 
     console.log('Отправленные данные:', { username, password });
@@ -115,10 +140,10 @@ function Register() {
           />
 
           <input
-            type="text"
+            type="email"
             value={username}
             onChange={handleUsernameChange}
-            placeholder="Логин / Email"
+            placeholder="Почта"
             className="register__input"
           />
           <input
@@ -136,16 +161,16 @@ function Register() {
             className="register__input"
           />
           <button onClick={handleSubmit} className="register__button">
-          Регистрация
+          Зарегистрироваться
           </button>
           <div className='register__bottom-cont'>
-            <a href="#" className="register__back">
+            <Link to="/" className="register__back">
               Назад
-            </a>
+            </Link>
 
-            <a href="#" className="register__as-guest">
+            <Link to="/homepage" href="#" className="register__as-guest">
               Войти как гость
-            </a>
+            </Link>
           </div>
           
         </div>
