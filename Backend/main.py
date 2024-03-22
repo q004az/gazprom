@@ -57,7 +57,20 @@ def create_event():
                                     max_number_participants=data['max_number_participants'],
                                     category_participants=data['category_participants'],
                                     datetime_create_event=data['datetime_create_event'])
-    print(f'Метод Data.register_user вызван с результатом: {is_complete}')
+    if is_complete:
+        result = {"message": "Метод успешно вызван", "data": data}
+    else:
+        result = {"message": "Метод не выполнен"}
+
+    return jsonify(result)
+
+@app.route('/api/append_media', methods={'POST'})
+def append_media():
+    data = request.get_json()
+    is_complete = Data.append_media(
+                                    category=data['category'],
+                                    path=data['path'],
+                                    id_event=data['id_event'])
 
     if is_complete:
         result = {"message": "Метод успешно вызван", "data": data}
@@ -65,6 +78,7 @@ def create_event():
         result = {"message": "Метод не выполнен"}
 
     return jsonify(result)
+
 
 
 if __name__ == '__main__':
