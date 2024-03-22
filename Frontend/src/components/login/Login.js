@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../../styles/App.css';
 import '../../styles/login.css';
 import '../../styles/zero.css';
-import { Link } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 
 function ErrorMessage({ message }) {
   if (!message) return null;
@@ -27,7 +27,7 @@ function Login() {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setErrorMessage(''); 
     
     if (username.length === 0) {
@@ -38,6 +38,34 @@ function Login() {
     if (password.length < 5 || password.length > 50) {
       setErrorMessage('Пароль должен быть не менее 5 и не более 50 символов');
       return;
+    }
+
+    try {
+      const response = await fetch('http://26.49.94.205/api/authorization', {
+        method: 'POST', // Метод должен быть POST для авторизации
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          login: username,
+          password: password,
+        }),
+      });
+  
+      const data = await response.json();
+      
+      console.log('Отправленные данные:', { username, password });
+      console.log('Ответ сервера:', data);
+
+      if (response.ok) {
+        return redirect("/homepage");
+      } else {
+        setErrorMessage('Неверный логин или пароль');
+      }
+    } catch (error) {
+      
+      console.error('Ошибка при отправке запроса:', error);
+      setErrorMessage('Ошибка при отправке запроса');
     }
 
     console.log('Отправленные данные:', { username, password });

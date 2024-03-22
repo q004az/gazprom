@@ -1,7 +1,7 @@
 import '../../styles/register.css';
 import '../../styles/zero.css';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 
 function ErrorMessage({ message }) {
   if (!message) return null;
@@ -21,6 +21,7 @@ function Register() {
   const [lastName, setLastName] = useState('');
   const [surname, setSurname] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [success, setSuccess] = useState(false); // Добавляем состояние для отслеживания успеха
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -38,7 +39,7 @@ function Register() {
     setFirstName(event.target.value);
   };
 
-  const handleLasttNameChange = (event) => {
+  const handleLastNameChange = (event) => {
     setLastName(event.target.value);
   };
 
@@ -48,35 +49,34 @@ function Register() {
 
   const handleSubmit = async () => {
     setErrorMessage(''); // Сброс ошибки перед проверкой
-    
+
     if (username.length === 0) {
       setErrorMessage('Пожалуйста, введите логин');
       return;
     }
 
-    if(firstName.length === 0){
+    if (firstName.length === 0) {
       setErrorMessage('Пожалуйста, введите имя');
       return;
     }
 
-    if(lastName.length === 0){
+    if (lastName.length === 0) {
       setErrorMessage('Пожалуйста, введите фамилию');
       return;
     }
 
-    if(surname.length === 0){
+    if (surname.length === 0) {
       setErrorMessage('Пожалуйста, введите отчество');
       return;
     }
-    
 
     if (password.length < 5 || password.length > 50) {
       setErrorMessage('Пароль должен быть не менее 5 и не более 50 символов');
       return;
     }
 
-    if(confirmPassword!=password){
-      setErrorMessage('Паролиь не совпадают');
+    if (confirmPassword !== password) {
+      setErrorMessage('Пароли не совпадают');
       return;
     }
 
@@ -87,100 +87,107 @@ function Register() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          surname: lastName,
-          name: firstName,
-          patronymic: surname,
-          login: username,
-          password: password,
+          'surname': lastName,
+          'name': firstName,
+          'patronymic': surname,
+          'login': username,
+          'password': password,
         }),
       });
-  
+    
       const data = await response.json();
-      
-      console.log('Отправленные данные:', { username, password });
+    
+      console.log('Отправленные данные:', {
+        'surname': lastName,
+        'name': firstName,
+        'patronymic': surname,
+        'login': username,
+        'password': password,
+      });
       console.log('Ответ сервера:', data);
+    
+      if (response.ok) {
+        setSuccess(true); // Устанавливаем состояние успешности
+      } else {
+        setErrorMessage('Ошибка при регистрации'); // Устанавливаем сообщение об ошибке
+      }
     } catch (error) {
-      
       console.error('Ошибка при отправке запроса:', error);
       setErrorMessage('Ошибка при отправке запроса');
     }
-
-    console.log('Отправленные данные:', { username, password });
+    
+    
   };
 
- 
+  if (success) {
+    return redirect("/homepage");
+  }
 
   return (
-   
-      <div className="register">
-        <ErrorMessage message={errorMessage} />
-        <div className="register__container">
-          <img src="./assets/icons/logo.svg" className="register__logo" alt="logo"></img>
-          <p className="register__title">Регистрация</p>
-          <input
-            type="text"
-            value={firstName}
-            onChange={handleFirstNameChange}
-            placeholder="Имя"
-            className="register__input"
-          />
-          <input
-            type="text"
-            value={lastName}
-            onChange={handleLasttNameChange}
-            placeholder="Фамилия"
-            className="register__input"
-          />
-          <input
-            type="text"
-            value={surname}
-            onChange={handleSurnameChange}
-            placeholder="Отчество"
-            className="register__input"
-          />
+    <div className="register">
+      <ErrorMessage message={errorMessage} />
+      <div className="register__container">
+        <img src="./assets/icons/logo.svg" className="register__logo" alt="logo"></img>
+        <p className="register__title">Регистрация</p>
+        <input
+          type="text"
+          value={firstName}
+          onChange={handleFirstNameChange}
+          placeholder="Имя"
+          className="register__input"
+        />
+        <input
+          type="text"
+          value={lastName}
+          onChange={handleLastNameChange}
+          placeholder="Фамилия"
+          className="register__input"
+        />
+        <input
+          type="text"
+          value={surname}
+          onChange={handleSurnameChange}
+          placeholder="Отчество"
+          className="register__input"
+        />
 
-          <input
-            type="email"
-            value={username}
-            onChange={handleUsernameChange}
-            placeholder="Почта"
-            className="register__input"
-          />
-          <input
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
-            placeholder="Пароль"
-            className="register__input"
-          />
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
-            placeholder="Пароль"
-            className="register__input"
-          />
-          <button onClick={handleSubmit} className="register__button">
+        <input
+          type="email"
+          value={username}
+          onChange={handleUsernameChange}
+          placeholder="Почта"
+          className="register__input"
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={handlePasswordChange}
+          placeholder="Пароль"
+          className="register__input"
+        />
+        <input
+          type="password"
+          value={confirmPassword}
+          onChange={handleConfirmPasswordChange}
+          placeholder="Подтвердите пароль"
+          className="register__input"
+        />
+        <button onClick={handleSubmit} className="register__button">
           Зарегистрироваться
-          </button>
-          <div className='register__bottom-cont'>
-            <Link to="/" className="register__back">
-              Назад
-            </Link>
+        </button>
+        <div className="register__bottom-cont">
+          <Link to="/" className="register__back">
+            Назад
+          </Link>
 
-            <Link to="/homepage" href="#" className="register__as-guest">
-              Войти как гость
-            </Link>
-          </div>
-          
+          <Link to="/homepage" href="#" className="register__as-guest">
+            Войти как гость
+          </Link>
         </div>
-
-        <p className="register__desc">Сайт по бронированию аудиторий, для ваших мероприятий</p>
-
       </div>
 
-      
-    
+      <p className="register__desc">Сайт по бронированию аудиторий, для ваших мероприятий</p>
+    </div>
   );
 }
 
