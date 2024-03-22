@@ -266,6 +266,30 @@ class Data:
         return Data.execute_query_with_params(sql_query)
 
     @staticmethod
+    def remove_event(id_audience: int, title_event: str, time_start_event: str, time_end_event: str, date: str,
+                     responsible: int, category: str, number_participants: int, max_number_participants: int,
+                     category_participants: str, datetime_create_event: str) -> bool:
+        db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
+        db.setDatabaseName('database.db')
+        if not db.open():
+            return False
+
+        sql_query = f"DELETE FROM events WHERE " \
+                    f"Id_audience={id_audience}," \
+                    f"Title_event={title_event}," \
+                    f"Time_start_event={time_start_event}," \
+                    f"Time_end_event={time_end_event}," \
+                    f"Date={date}," \
+                    f"Responsible={responsible}," \
+                    f"Category={category}," \
+                    f"Max_number_participants={max_number_participants}," \
+                    f"Number_participants={number_participants}," \
+                    f"Category_participants={category_participants}," \
+                    f"Datetime_create_event={datetime_create_event}"
+
+        return Data.execute_query_with_params(sql_query)
+
+    @staticmethod
     def search_events_by_audience(id_audience: str) -> dict:
         db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
         db.setDatabaseName('database.db')
@@ -303,6 +327,17 @@ class Data:
             return False
         sql_query = f"INSERT INTO media (Category, Path, Id_event)" \
                     f" VALUES ({category}, {path}, {id_event})"
+        return Data.execute_query_with_params(sql_query)
+
+    @staticmethod
+    def remove_media(path: str) -> bool:
+        db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
+        db.setDatabaseName('database.db')
+        if not db.open():
+            return False
+
+        sql_query = f"DELETE FROM media WHERE Path={path}"
+
         return Data.execute_query_with_params(sql_query)
 
     @staticmethod

@@ -1,10 +1,21 @@
 import requests
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 from flask_restful import Api, Resource
 
 from Database.database_connection import Data
 
+from flask_cors import CORS
+
 app = Flask(__name__)
+
+CORS(app)
+
+
+@app.after_request
+def add_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, DELETE, HEAD, OPTIONS'
+    return response
 
 
 @app.route('/api/create_tables', methods=['GET'])
@@ -17,6 +28,9 @@ def create_tables():
 @app.route('/api/registration', methods=['POST'])
 def registration():
     data = request.get_json()
+
+    origin = request.headers.get('Origin')
+    print(f'Запрос пришел с источника: {origin}')
 
     print('Полученные данные:', data['surname'], data['name'], data['patronymic'], data['login'], data['password'])
     is_complete = Data.register_user(
