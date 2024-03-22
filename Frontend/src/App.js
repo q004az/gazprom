@@ -5,7 +5,7 @@ import './styles/zero.css';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import  Login from './components/login/Login'
 import Register from './components/register/register'
-import Homepage from './components/homepage/Homepage'
+import Homepage from './components/homepage/HomePage'
 import Audience1 from './components/Audience1/Audience1';
 
 function App() {

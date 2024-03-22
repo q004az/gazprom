@@ -81,39 +81,39 @@ function Register() {
     }
 
     try {
-      const response = await fetch('http://26.49.94.205/api/registration', {
+      const response = await fetch('http://26.32.128.252/api/registration', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          'surname': lastName,
-          'name': firstName,
-          'patronymic': surname,
-          'login': username,
-          'password': password,
+          "surname": lastName,
+          "name": firstName,
+          "patronymic": surname,
+          "login": username,
+          "password": password,
         }),
       });
-    
+  
       const data = await response.json();
-    
-      console.log('Отправленные данные:', {
+  
+      console.log('Sent data:', {
         'surname': lastName,
         'name': firstName,
         'patronymic': surname,
         'login': username,
         'password': password,
       });
-      console.log('Ответ сервера:', data);
-    
+      console.log('Server response:', data);
+  
       if (response.ok) {
-        setSuccess(true); // Устанавливаем состояние успешности
+        setSuccess(true); // Set success state
       } else {
-        setErrorMessage('Ошибка при регистрации'); // Устанавливаем сообщение об ошибке
+        setErrorMessage('Error registering'); // Set error message
       }
     } catch (error) {
-      console.error('Ошибка при отправке запроса:', error);
-      setErrorMessage('Ошибка при отправке запроса');
+      console.error('Error sending request:', error);
+      setErrorMessage('Error sending request');
     }
     
     

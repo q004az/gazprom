@@ -1,16 +1,26 @@
 .header {
     &__container{
+        top: 0;
+        position: fixed;
+        z-index: 100;
         background-color: #ffffff;
-        width: 100vw; 
-        height: 130px;
+        width: 99vw; 
+        height: 100px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
         padding: 0 50px;
         border-radius: 0 0 20px 20px;
+        box-shadow: 3px 10px 50px rgba(0, 0, 0, .1);
         
     }
+    &__arrow{
+      width: 25px;
+      height: 25px;
+      margin-top:-2px;
+    }
+
     &__left{
         display: flex;
         flex-direction: row;
@@ -19,6 +29,10 @@
     &__logo{
         width: 198px;
         height: 108px;
+        &--sm{
+            width: 168px;
+            height: 78px;
+        }
     }
     &__menu{
         background-color: #ffffff;
@@ -49,5 +63,164 @@
         text-decoration: none;
         text-align: center;
         padding-top: 5px;
+        
+        &__in-img{
+          width: 50px;
+          height: 50px;
+        }
     }
+
+}
+
+
+
+
+.topmenu{
+    width: 200px;
+    display: block;
+}
+
+.topmenu:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.topmenu > li {
+  display: flex;
+  flex-direction: row;
+  float: left;
+  position: relative;
+  font-family: Montserrat; 
+}
+.topmenu > li > a {
+  display: block;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 14px;
+  width: 250px;
+  font-weight: bold;
+  color: #2E6A8E;
+  text-decoration: none;
+  transition: color 0.4s;
+  
+}
+.topmenu li a:hover { color: #f4072e; }
+
+.submenu {
+  
+  background: #ffffff;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 5;
+  width: 400px;
+  height: 100px;
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: 0 0;
+  transition: .7s ease-in-out;
+  border-radius: 10px;
+
+  &__li-d{
+    color: #B3B3B3;
+  }
+
+  
+}
+.submenu a {
+  margin-top: 20px;
+  color: #2E6A8E;
+  text-align: left;
+  padding: 12px 15px;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  text-decoration: none;
+  
+
+}
+.submenu li:last-child a { border-bottom: none; }
+.topmenu > li:hover .submenu {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+
+
+// Гамбургер
+
+#menu__toggle {
+  opacity: 0;
+}
+#menu__toggle:checked + .menu__btn > span {
+  transform: rotate(45deg);
+}
+#menu__toggle:checked + .menu__btn > span::before {
+  top: 0;
+  transform: rotate(0deg);
+}
+#menu__toggle:checked + .menu__btn > span::after {
+  top: 0;
+  transform: rotate(90deg);
+}
+#menu__toggle:checked ~ .menu__box {
+  left: 0 !important;
+}
+.menu__btn {
+  position: fixed;
+  margin-right: 40px;
+  display: flex;
+  align-items: center;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  z-index: 1;
+}
+.menu__btn > span,
+.menu__btn > span::before,
+.menu__btn > span::after {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  background-color: #12657E;
+  transition-duration: .25s;
+  border-radius: 3px;
+}
+.menu__btn > span::before {
+  content: '';
+  top: -10px;
+}
+.menu__btn > span::after {
+  content: '';
+  top: 10px;
+}
+.menu__box {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 300px;
+  height: 45%;
+  border: 0;
+  border-radius: 0 0 10px 0;
+  margin: 0;
+  padding: 80px 0;
+  list-style: none;
+  background-color: #ECEFF1;
+  transition-duration: .25s;
+  
+
+}
+.menu__item {
+  text-decoration: none;
+  display: block;
+  padding: 20px 40px;
+  color: #333;
+  font-family: Montserrat;
+  font-size: 20px;
+  font-weight: 400;
+  // &:first-child{
+  //   margin-top: 50px;
+  // }
+  
 }
