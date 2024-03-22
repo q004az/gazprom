@@ -4,8 +4,6 @@ from cryptography.fernet import Fernet
 
 class Data:
     def __init__(self):
-        super(Data, self).__init__()
-        # self.database = None
         self.create_connection()
 
     @staticmethod
@@ -272,7 +270,7 @@ class Data:
         db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
         db.setDatabaseName('database.db')
         if not db.open():
-            return False
+            return {}
 
         sql_query = QtSql.QSqlQuery()
         sql_query.exec(f"SELECT COUNT(*) FROM events WHERE Id_audience = '{id_audience}'")
@@ -297,8 +295,6 @@ class Data:
 
         return resulted_dict
 
-
-
     @staticmethod
     def create_media(category: str, path: str, id_event: int) -> bool:
         db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
@@ -308,3 +304,26 @@ class Data:
         sql_query = f"INSERT INTO media (Category, Path, Id_event)" \
                     f" VALUES ({category}, {path}, {id_event})"
         return Data.execute_query_with_params(sql_query)
+
+    @staticmethod
+    def search_media_by_event(id_event: str) -> dict:
+        db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
+        db.setDatabaseName('database.db')
+        if not db.open():
+            return {}
+
+        sql_query = QtSql.QSqlQuery()
+        sql_query.exec(f"SELECT COUNT(*) FROM media WHERE Id_event = '{id_event}'")
+
+        resulted_dict = {}
+        counter = 0
+        while sql_query.next():
+            resulted_dict[f'{counter}'] = {
+                'id': sql_query.value(0),
+                'category': sql_query.value(1),
+                'path': sql_query.value(2),
+                'id_event': sql_query.value(3)
+            }
+            counter += 1
+
+        return resulted_dict
