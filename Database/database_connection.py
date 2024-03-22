@@ -4,8 +4,6 @@ from cryptography.fernet import Fernet
 
 class Data:
     def __init__(self):
-        super(Data, self).__init__()
-        # self.database = None
         self.create_connection()
 
     @staticmethod
@@ -39,14 +37,14 @@ class Data:
                    "("
                    "ID INTEGER primary key AUTOINCREMENT,"
                    "Title VARCHAR(100),"
-                   "time_start TIME DEFAULT '08:00:00',"
-                   "time_end TIME DEFAULT '17:00:00',"
+                   "Time_start TIME DEFAULT '08:00:00',"
+                   "Time_end TIME DEFAULT '17:00:00',"
                    "Time_step TIME DEFAULT '00:10:00',"
                    "Max_participants INTEGER,"
                    "Is_active BOOLEAN DEFAULT TRUE,"
                    "Responsible INTEGER,"
-                   "time_start_break TIME DEFAULT '13:00:00',"
-                   "time_end_break TIME DEFAULT '14:00:00'"
+                   "Time_start_break TIME DEFAULT '13:00:00',"
+                   "Time_end_break TIME DEFAULT '14:00:00'"
                    ")")
 
         query.exec("CREATE TABLE IF NOT EXISTS events"
@@ -69,8 +67,8 @@ class Data:
                    "("
                    "ID INTEGER primary key AUTOINCREMENT,"
                    "Category VARCHAR(100),"
-                   "Path VARCHAR(100),"
-                   "Id_event DATETIME DEFAULT CURRENT_TIMESTAMP"
+                   "Path VARCHAR(1000),"
+                   "Id_event INTEGER"
                    ")")
 
         return True
@@ -111,7 +109,7 @@ class Data:
     @staticmethod
     def Decrypt_password(password: str, crypt_key: str) -> str:
         """
-        :param password
+        :param password.
         :param crypt_key: the key used to decrypt the password stored in the database
         :return: decrypted password
         """
@@ -268,6 +266,36 @@ class Data:
         return Data.execute_query_with_params(sql_query)
 
     @staticmethod
+    def search_events_by_audience(id_audience: str) -> dict:
+        db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
+        db.setDatabaseName('database.db')
+        if not db.open():
+            return {}
+
+        sql_query = QtSql.QSqlQuery()
+        sql_query.exec(f"SELECT COUNT(*) FROM events WHERE Id_audience = '{id_audience}'")
+
+        resulted_dict = {}
+        counter = 0
+        while sql_query.next():
+            resulted_dict[f'{counter}'] = {
+                'id': sql_query.value(0),
+                'id_audience': sql_query.value(1),
+                'title_event': sql_query.value(2),
+                'time_end_event': sql_query.value(3),
+                'date': sql_query.value(4),
+                'responsible': sql_query.value(5),
+                'category': sql_query.value(6),
+                'number_participants': sql_query.value(7),
+                'max_number_participants': sql_query.value(8),
+                'category_participants': sql_query.value(9),
+                'datetime_create_event': sql_query.value(10)
+            }
+            counter += 1
+
+        return resulted_dict
+
+    @staticmethod
     def create_media(category: str, path: str, id_event: int) -> bool:
         db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
         db.setDatabaseName('database.db')
@@ -276,3 +304,26 @@ class Data:
         sql_query = f"INSERT INTO media (Category, Path, Id_event)" \
                     f" VALUES ({category}, {path}, {id_event})"
         return Data.execute_query_with_params(sql_query)
+
+    @staticmethod
+    def search_media_by_event(id_event: str) -> dict:
+        db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
+        db.setDatabaseName('database.db')
+        if not db.open():
+            return {}
+
+        sql_query = QtSql.QSqlQuery()
+        sql_query.exec(f"SELECT COUNT(*) FROM media WHERE Id_event = '{id_event}'")
+
+        resulted_dict = {}
+        counter = 0
+        while sql_query.next():
+            resulted_dict[f'{counter}'] = {
+                'id': sql_query.value(0),
+                'category': sql_query.value(1),
+                'path': sql_query.value(2),
+                'id_event': sql_query.value(3)
+            }
+            counter += 1
+
+        return resulted_dict
